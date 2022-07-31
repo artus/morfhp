@@ -21,6 +21,10 @@ export class FormValueState<T> {
   }
 
   public canSubmit(): boolean {
-    return !this.error;
+    if (this.isRequired) {
+      return !this.error && !!this.value
+    } else {
+      return !this.error;
+    }
   }
 }

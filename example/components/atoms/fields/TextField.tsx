@@ -1,7 +1,7 @@
 import * as React from "react";
-import { constants } from "../../constants";
+import { constants } from "../../../constants";
 
-export interface TextFieldProps {
+interface TextFieldProps {
   value?: string,
   onValueChange: (newValue: string) => void,
   isError: boolean,
@@ -23,6 +23,7 @@ export const TextField: React.FC<TextFieldProps> = ({
 }
 
 const style: (isError: boolean) => React.CSSProperties = (isError: boolean) => ({
+  width: "100%",
   border: 0,
   borderBottom: "1px solid black",
   outlineWidth: 0,

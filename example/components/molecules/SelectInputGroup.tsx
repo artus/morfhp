@@ -1,40 +1,40 @@
 import * as React from "react";
+import { SelectInputItem } from '../../../.';
 import { constants } from "../../constants";
 import { FieldError } from "../atoms/fields/FieldError";
-import { FieldLabel } from "../atoms/fields/FieldLabel";
-import { TextField } from "../atoms/fields/TextField";
+import { FieldLabel } from '../atoms/fields/FieldLabel';
+import { SelectField } from "../atoms/fields/SelectField";
 
-interface TextInputGroupProps {
+interface SelectInputGroupProps {
   isRequired: boolean,
   error?: string,
   label: string,
-  value?: string,
-  onValueChange: (newValue: string) => void,
-  secureTextEntry: boolean,
-  isError: boolean
+  onValueChange: (newValue: SelectInputItem<string>) => void,
+  isError: boolean,
+  items: SelectInputItem<string>[],
+  value: SelectInputItem<string>
 }
 
-export const TextInputGroup: React.FC<TextInputGroupProps> = ({
+export const SelectInputGroup: React.FC<SelectInputGroupProps> = ({
+  isRequired,
   error,
   label,
   value,
   onValueChange,
-  secureTextEntry,
   isError,
-  isRequired
+  items
 }) => {
 
   return <div style={style}>
     <FieldLabel
-      isError={isError}
-      label={label}
       isRequired={isRequired}
+      label={label}
+      isError={isError}
     >
-      <TextField
+      <SelectField
+        items={items}
         value={value}
         onValueChange={onValueChange}
-        isError={isError}
-        secureTextEntry={secureTextEntry}
       />
     </FieldLabel>
     {isError && <FieldError error={error!} />}
@@ -45,4 +45,4 @@ const style: React.CSSProperties = {
   display: "flex",
   flexDirection: "column",
   marginBottom: constants.sizing.margin.medium
-}
+};

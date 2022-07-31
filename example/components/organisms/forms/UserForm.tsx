@@ -1,8 +1,10 @@
 import * as React from "react";
 
-import { TextInputGroup } from "../molecules/TextInputGroup";
-import { useTextInput } from '../../../.';
-import { constants } from "../../constants";
+import { TextInputGroup } from "../../molecules/TextInputGroup";
+import { useTextInput, useSubmitButton } from '../../../../.';
+import { SubmitButton } from "../../atoms/buttons/SubmitButton";
+import { Form } from "../../atoms/form/Form";
+import { onSubmitWrapper } from "../../../helpers/OnSubmitWrapper";
 
 const usernameValidator = (username: string) => {
   if (username.length < 3) throw new Error('Username must at least be 3 characters long.');
@@ -21,7 +23,6 @@ const passwordValidator = (password: string) => {
 export const UserForm: React.FC = () => {
 
   const usernameInput = useTextInput({
-    validateInitially: true,
     isRequired: true,
     label: "username",
     validator: usernameValidator,
@@ -34,18 +35,23 @@ export const UserForm: React.FC = () => {
     label: "password",
     validator: passwordValidator,
     Component: TextInputGroup
-  })
+  });
 
-  return <div style={style}>
+  const submitButton = useSubmitButton({
+    inputs: [usernameInput, passwordInput],
+    onSubmit,
+    Component: SubmitButton({ text: "Create user" })
+  });
+
+  function onSubmit(): Promise<void> {
+    return onSubmitWrapper(() => {
+      alert(`Welcome new user ${usernameInput.formValue.value!}`);
+    });
+  }
+
+  return <Form>
     {usernameInput.jsx}
     {passwordInput.jsx}
-  </div>
-}
-
-const style: React.CSSProperties = {
-  margin: constants.sizing.margin.medium,
-  padding: constants.sizing.padding.large,
-  width: "250px",
-  boxShadow: '1px 2px 9px gray',
-  borderRadius: "15px"
+    {submitButton.jsx}
+  </Form>
 }

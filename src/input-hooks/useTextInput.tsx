@@ -4,14 +4,16 @@ import { FormInputProps, InputComponentProps, useFormValue } from "../value-hook
 
 interface TextInputComponentProps {
   rows?: number,
-  secureTextEntry?: boolean
+  secureTextEntry?: boolean,
+  placeholder?: string
 }
 
 interface TextInputProps {
+  placeholder?: string,
   isMultiline?: boolean;
   rows?: number;
   secureTextEntry?: boolean,
-  Component: React.FC<InputComponentProps<string> | TextInputComponentProps>
+  Component: React.FC<InputComponentProps<string> & TextInputComponentProps>
 }
 
 export const useTextInput = ({
@@ -23,6 +25,7 @@ export const useTextInput = ({
   rows = 1,
   validateInitially = false,
   secureTextEntry = false,
+  emptyValueMessage,
   Component
 }: FormInputProps<string> & TextInputProps): FormInput<string> => {
 
@@ -30,18 +33,20 @@ export const useTextInput = ({
     defaultValue,
     validator,
     isRequired,
-    validateInitially
+    validateInitially,
+    emptyValueMessage
   });
 
   const jsx = <Component
+    isRequired={isRequired}
     label={label}
-    defaultValue={defaultValue}
     value={formValue.value}
     placeholder={placeholder}
     rows={rows}
     error={formValue.error}
     secureTextEntry={secureTextEntry}
     onValueChange={formValue.onChange}
+    isError={formValue.isError()}
   />;
 
   return new FormInput(

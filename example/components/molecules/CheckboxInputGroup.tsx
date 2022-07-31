@@ -1,43 +1,39 @@
 import * as React from "react";
 import { constants } from "../../constants";
+import { CheckboxField } from "../atoms/fields/CheckboxField";
 import { FieldError } from "../atoms/fields/FieldError";
 import { FieldLabel } from "../atoms/fields/FieldLabel";
-import { TextField } from "../atoms/fields/TextField";
 
-interface TextInputGroupProps {
+interface CheckboxInputGroupProps {
   isRequired: boolean,
   error?: string,
   label: string,
-  value?: string,
-  onValueChange: (newValue: string) => void,
-  secureTextEntry: boolean,
+  value?: boolean,
+  onValueChange: (newValue: boolean) => void,
   isError: boolean
 }
 
-export const TextInputGroup: React.FC<TextInputGroupProps> = ({
+export const CheckboxInputGroup: React.FC<CheckboxInputGroupProps> = ({
+  isRequired,
   error,
   label,
   value,
   onValueChange,
-  secureTextEntry,
-  isError,
-  isRequired
+  isError
 }) => {
-
   return <div style={style}>
     <FieldLabel
       isError={isError}
       label={label}
       isRequired={isRequired}
+      inline={true}
     >
-      <TextField
+      <CheckboxField
         value={value}
         onValueChange={onValueChange}
-        isError={isError}
-        secureTextEntry={secureTextEntry}
       />
     </FieldLabel>
-    {isError && <FieldError error={error!} />}
+    {isError && <FieldError inline={true} error={error!} />}
   </div>
 }
 

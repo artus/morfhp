@@ -5,25 +5,24 @@ import { validate } from "../domain/Validation";
 export interface FormInputProps<T> {
   isRequired: boolean;
   label: string;
-  validator: (value: T) => T;
+  validator: (value: T | undefined) => T;
   defaultValue?: T;
-  placeholder?: string;
   validateInitially?: boolean;
+  emptyValueMessage?: string;
 }
 
 export interface InputComponentProps<T> {
   label: string,
   value: T | undefined,
   onValueChange: (newValue: T) => void,
-  placeholder?: string,
   isRequired: boolean,
-  defaultValue?: T,
-  error?: string
+  error?: string,
+  isError: boolean
 }
 
 interface FormValueProps<T> {
   defaultValue?: T;
-  validator: (value: T) => T;
+  validator: (value: T | undefined) => T;
   isRequired: boolean;
   validateInitially?: boolean;
   emptyValueMessage?: string
@@ -52,6 +51,8 @@ export const useFormValue = <T>({
   useEffect(() => {
     if (validateInitially && value !== undefined && value !== null) {
       setTouched(true);
+      validate(value, validator, setError);
+    } else {
       validate(value, validator, setError);
     }
   }, []);
