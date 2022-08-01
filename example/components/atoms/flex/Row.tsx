@@ -1,14 +1,12 @@
-import * as React from "react";
+import * as React from 'react';
 
-export const Row: React.FC = ({
-  children
-}) => {
-  return <div style={style}>{children}</div>
-}
+export const Row: React.FC = ({ children }) => {
+  return <div style={style}>{children}</div>;
+};
 
 const style: React.CSSProperties = {
-  display: "flex",
-  flexDirection: "row",
-  justifyContent: "center",
-  alignItems: "center",
-}
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'center',
+  alignItems: 'center',
+};

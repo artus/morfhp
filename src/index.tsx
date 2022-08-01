@@ -8,5 +8,5 @@ export {
   useBooleanInput,
   useSubmitButton,
   useSelectInput,
-  SelectInputItem
+  SelectInputItem,
 };

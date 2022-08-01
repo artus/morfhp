@@ -6,32 +6,25 @@ import {
   useFormValue,
 } from '../value-hooks/useFormValue';
 
-interface TextInputComponentProps {
-  rows?: number;
-  secureTextEntry?: boolean;
+interface NumberInputComponentProps {
   placeholder?: string;
 }
 
-interface TextInputProps {
+interface NumberInputProps {
   placeholder?: string;
-  isMultiline?: boolean;
-  rows?: number;
-  secureTextEntry?: boolean;
-  Component: React.FC<InputComponentProps<string> & TextInputComponentProps>;
+  Component: React.FC<InputComponentProps<number> & NumberInputComponentProps>;
 }
 
-export const useTextInput = ({
+export const useNumberInput = ({
   isRequired,
   label,
   validator,
-  defaultValue = '',
+  defaultValue = 0,
   placeholder = '',
-  rows = 1,
   validateInitially = false,
-  secureTextEntry = false,
   emptyValueMessage,
   Component,
-}: FormInputProps<string> & TextInputProps): FormInput<string> => {
+}: FormInputProps<number> & NumberInputProps): FormInput<number> => {
   const formValue = useFormValue({
     defaultValue,
     validator,
@@ -43,14 +36,12 @@ export const useTextInput = ({
   const jsx = (
     <Component
       isRequired={isRequired}
-      label={label}
-      value={formValue.value}
-      placeholder={placeholder}
-      rows={rows}
-      error={formValue.error}
-      secureTextEntry={secureTextEntry}
-      onValueChange={formValue.onChange}
       isError={formValue.isError()}
+      label={label}
+      onValueChange={formValue.onChange}
+      value={formValue.value}
+      error={formValue.error}
+      placeholder={placeholder}
     />
   );
 

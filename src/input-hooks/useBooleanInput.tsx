@@ -1,9 +1,13 @@
 import React from 'react';
 import { FormInput } from '../domain/FormInput';
-import { FormInputProps, InputComponentProps, useFormValue } from '../value-hooks/useFormValue';
+import {
+  FormInputProps,
+  InputComponentProps,
+  useFormValue,
+} from '../value-hooks/useFormValue';
 
 interface BooleanInputProps {
-  Component: React.FC<InputComponentProps<boolean>>
+  Component: React.FC<InputComponentProps<boolean>>;
 }
 
 export const useBooleanInput = ({
@@ -13,29 +17,26 @@ export const useBooleanInput = ({
   defaultValue = false,
   validateInitially = false,
   emptyValueMessage,
-  Component
+  Component,
 }: FormInputProps<boolean> & BooleanInputProps): FormInput<boolean> => {
-
   const formValue = useFormValue({
     defaultValue,
     validator,
     isRequired,
     validateInitially,
-    emptyValueMessage
+    emptyValueMessage,
   });
 
-  const jsx = <Component 
-    isError={formValue.isError()}
-    isRequired={isRequired}
-    label={label}
-    onValueChange={formValue.onChange}
-    value={formValue.value}
-    error={formValue.error}
-  />
-
-  return new FormInput(
-    formValue,
-    jsx,
-    formValue.onChange
+  const jsx = (
+    <Component
+      isError={formValue.isError()}
+      isRequired={isRequired}
+      label={label}
+      onValueChange={formValue.onChange}
+      value={formValue.value}
+      error={formValue.error}
+    />
   );
-}
+
+  return new FormInput(formValue, jsx, formValue.onChange);
+};

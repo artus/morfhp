@@ -4,14 +4,14 @@ import { Dot } from './Dot';
 import './Dots.css';
 
 interface DotsBackgroundProps {
-  width: number,
-  height: number,
-  paddingTop?: number,
-  paddingLeft?: number,
-  paddingRight?: number,
-  paddingBottom?: number,
-  reverse?: boolean
-  children: React.ReactNode
+  width: number;
+  height: number;
+  paddingTop?: number;
+  paddingLeft?: number;
+  paddingRight?: number;
+  paddingBottom?: number;
+  reverse?: boolean;
+  children: React.ReactNode;
 }
 
 export const DotsBackground: React.FC<DotsBackgroundProps> = ({
@@ -22,9 +22,8 @@ export const DotsBackground: React.FC<DotsBackgroundProps> = ({
   paddingLeft = 0,
   paddingRight = 0,
   reverse = false,
-  children
+  children,
 }) => {
-
   const dotsFieldWidth = width - paddingLeft - paddingRight;
   const dotsFieldHeight = height - paddingTop - paddingBottom;
 
@@ -42,40 +41,56 @@ export const DotsBackground: React.FC<DotsBackgroundProps> = ({
         const yPercentage = j / y;
         const avgPercentage = (xPercentage + yPercentage) / 2;
         const size = reverse
-          ? maxDotSize - (maxDotSize * avgPercentage)
+          ? maxDotSize - maxDotSize * avgPercentage
           : maxDotSize * avgPercentage;
-        innerDots[j - 1].push(<Dot key={`${i}-${j}`} size={size} />)
+        innerDots[j - 1].push(<Dot key={`${i}-${j}`} size={size} />);
       }
     }
 
     return innerDots;
   }, []);
 
-  return <div className="bg-dots" style={containerStyle(width, height)}>
-    <div style={backgroundStyle(dotsFieldWidth, dotsFieldHeight, paddingTop, paddingBottom, paddingLeft, paddingRight)}>
-      {dots.map((row, index) => {
-        return <Row key={index}>
-          {row.map((dotElement) => dotElement)}
-        </Row>
-      })}
+  return (
+    <div className="bg-dots" style={containerStyle(width, height)}>
+      <div
+        style={backgroundStyle(
+          dotsFieldWidth,
+          dotsFieldHeight,
+          paddingTop,
+          paddingBottom,
+          paddingLeft,
+          paddingRight
+        )}
+      >
+        {dots.map((row, index) => {
+          return <Row key={index}>{row.map(dotElement => dotElement)}</Row>;
+        })}
+      </div>
+      {children}
     </div>
-    {children}
-  </div>
-}
+  );
+};
 
 const containerStyle: (width: number, height: number) => React.CSSProperties = (
   width,
   height
 ) => ({
-  position: "relative",
+  position: 'relative',
   width: `${width}px`,
   height: `${height}px`,
-  display: "flex",
-  justifyContent: "space-around",
-  alignItems: "center",
+  display: 'flex',
+  justifyContent: 'space-around',
+  alignItems: 'center',
 });
 
-const backgroundStyle: (width: number, height: number, paddingTop: number, paddingBottom: number, paddingLeft: number, paddingRight: number) => React.CSSProperties = (
+const backgroundStyle: (
+  width: number,
+  height: number,
+  paddingTop: number,
+  paddingBottom: number,
+  paddingLeft: number,
+  paddingRight: number
+) => React.CSSProperties = (
   width,
   height,
   paddingTop,
@@ -83,7 +98,7 @@ const backgroundStyle: (width: number, height: number, paddingTop: number, paddi
   paddingLeft,
   paddingRight
 ) => ({
-  position: "absolute",
+  position: 'absolute',
   width: `${width}px`,
   height: `${height}px`,
   zIndex: 1,

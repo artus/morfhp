@@ -75,7 +75,7 @@ const tcInput = useBooleanInput({
   defaultValue: false,
   Component: CheckboxInputGroup
 });
-`
+`;
 
 export const SELECT = `
 const cities = [
@@ -97,4 +97,4 @@ const cityInput = useSelectInput({
     return selectedInput;
   }
 });
-`
+`;

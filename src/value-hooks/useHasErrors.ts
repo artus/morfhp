@@ -1,5 +1,5 @@
-import { useMemo } from "react";
-import { FormInput } from "../domain/FormInput";
+import { useMemo } from 'react';
+import { FormInput } from '../domain/FormInput';
 
 export const useHasErrors = (formInputs: FormInput<unknown>[]): boolean => {
   return useMemo(() => {
@@ -10,4 +10,4 @@ export const useHasErrors = (formInputs: FormInput<unknown>[]): boolean => {
     }
     return false;
   }, [formInputs]);
-}
+};

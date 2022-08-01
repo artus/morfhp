@@ -1,18 +1,19 @@
-import * as React from "react";
+import * as React from 'react';
 
 interface CheckboxFieldProps {
-  value?: boolean,
-  onValueChange: (newValue: boolean) => void
+  value?: boolean;
+  onValueChange: (newValue: boolean) => void;
 }
 
-export const CheckboxField :React.FC<CheckboxFieldProps> = ({
+export const CheckboxField: React.FC<CheckboxFieldProps> = ({
   value,
-  onValueChange
+  onValueChange,
 }) => {
-
-  return <input
-    type={"checkbox"}
-    checked={value}
-    onChange={(e) => onValueChange(e.target.checked)}
-  />
-}
+  return (
+    <input
+      type={'checkbox'}
+      checked={value}
+      onChange={e => onValueChange(e.target.checked)}
+    />
+  );
+};

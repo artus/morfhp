@@ -3,19 +3,16 @@ import { constants } from '../../../constants';
 import './Loader.css';
 
 interface LoaderProps {
-  size?: string
+  size?: string;
 }
 
 export const Loader: React.FC<LoaderProps> = ({
-  size = constants.sizing.fonts.button
+  size = constants.sizing.fonts.button,
 }) => {
-  return <div 
-  style={style(size)} 
-  className='loader'
-  />
-}
+  return <div style={style(size)} className="loader" />;
+};
 
 const style: (size: string) => React.CSSProperties = (size: string) => ({
   width: size,
-  height: size
+  height: size,
 });

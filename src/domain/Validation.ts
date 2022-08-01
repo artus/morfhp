@@ -9,4 +9,4 @@ export const validate = <T>(
   } catch (error) {
     setError((error as Error).message);
   }
-}
+};

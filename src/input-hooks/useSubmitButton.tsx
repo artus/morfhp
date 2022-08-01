@@ -3,31 +3,28 @@ import { FormInput } from '../domain/FormInput';
 import { useCanSubmit } from '../value-hooks/useCanSubmit';
 
 interface ButtonComponentProps {
-  isLoading: boolean,
-  canSubmit: boolean,
-  onSubmit: () => void | Promise<void>
+  isLoading: boolean;
+  canSubmit: boolean;
+  onSubmit: () => void | Promise<void>;
 }
 
 interface SubmitButtonProps {
   inputs?: FormInput<unknown>[];
-  onSubmit: () => void | Promise<void>,
-  isLoadingInitially?: boolean,
-  Component: React.FC<ButtonComponentProps>
+  onSubmit: () => void | Promise<void>;
+  isLoadingInitially?: boolean;
+  Component: React.FC<ButtonComponentProps>;
 }
 
 class SubmitButtonState {
-  constructor(
-    readonly jsx: JSX.Element,
-  ) { }
+  constructor(readonly jsx: JSX.Element) {}
 }
 
 export const useSubmitButton = ({
   inputs = [],
   isLoadingInitially = false,
   onSubmit,
-  Component
+  Component,
 }: SubmitButtonProps): SubmitButtonState => {
-
   const [isLoading, setIsLoading] = React.useState(isLoadingInitially);
 
   const canSubmit = useCanSubmit(inputs);
@@ -36,13 +33,15 @@ export const useSubmitButton = ({
     setIsLoading(true);
     await onSubmit();
     setIsLoading(false);
-  }
+  };
 
-  const jsx = <Component
-    isLoading={isLoading}
-    canSubmit={canSubmit}
-    onSubmit={innerSubmit}
-  />
+  const jsx = (
+    <Component
+      isLoading={isLoading}
+      canSubmit={canSubmit}
+      onSubmit={innerSubmit}
+    />
+  );
 
   return new SubmitButtonState(jsx);
-}
+};

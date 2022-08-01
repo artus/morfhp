@@ -14,17 +14,12 @@ import { CityForm } from './components/organisms/forms/CityForm';
 
 const App = () => {
   return (
-
     <Column>
       <Row>
         <Title>Text inputs and submit button</Title>
       </Row>
       <Row>
-        <DotsBackground
-          width={1000}
-          height={800}
-          paddingRight={200}
-        >
+        <DotsBackground width={1000} height={800} paddingRight={200}>
           <UserForm />
           <CodeBlock code={USER_FORM} />
         </DotsBackground>
@@ -50,17 +45,12 @@ const App = () => {
       </Row>
 
       <Row>
-        <DotsBackground
-          width={1000}
-          height={500}
-          paddingRight={200}
-        >
+        <DotsBackground width={1000} height={500} paddingRight={200}>
           <CityForm />
           <CodeBlock code={SELECT} />
         </DotsBackground>
       </Row>
-
-    </Column >
+    </Column>
   );
 };
 

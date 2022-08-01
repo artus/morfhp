@@ -1,60 +1,57 @@
-import * as React from "react";
+import * as React from 'react';
 
-import { TextInputGroup } from "../../molecules/TextInputGroup";
+import { TextInputGroup } from '../../molecules/TextInputGroup';
 import { useTextInput, useSubmitButton, useBooleanInput } from '../../../../.';
-import { SubmitButton } from "../../atoms/buttons/SubmitButton";
-import { Form } from "../../atoms/form/Form";
-import { CheckboxInputGroup } from "../../molecules/CheckboxInputGroup";
-import { onSubmitWrapper } from "../../../helpers/OnSubmitWrapper";
+import { SubmitButton } from '../../atoms/buttons/SubmitButton';
+import { Form } from '../../atoms/form/Form';
+import { CheckboxInputGroup } from '../../molecules/CheckboxInputGroup';
+import { onSubmitWrapper } from '../../../helpers/OnSubmitWrapper';
 
 export const LoginForm: React.FC = () => {
-
   const usernameInput = useTextInput({
     isRequired: true,
-    label: "username",
+    label: 'username',
     validator: (username: string) => username,
-    Component: TextInputGroup
+    Component: TextInputGroup,
   });
 
   const passwordInput = useTextInput({
     secureTextEntry: true,
     isRequired: true,
-    label: "password",
+    label: 'password',
     validator: (password: string) => password,
-    Component: TextInputGroup
+    Component: TextInputGroup,
   });
 
   const rememberInput = useBooleanInput({
     isRequired: false,
-    label: "Remember me",
+    label: 'Remember me',
     validator: (value: boolean) => value,
     defaultValue: false,
-    Component: CheckboxInputGroup
+    Component: CheckboxInputGroup,
   });
 
   const tcInput = useBooleanInput({
     isRequired: true,
-    label: "I agree to the terms and conditions",
+    label: 'I agree to the terms and conditions',
     validator: (agree: boolean) => {
       if (!agree) {
-        throw new Error("You have to accept the terms and conditions to continue");
+        throw new Error(
+          'You have to accept the terms and conditions to continue'
+        );
       }
-      return agree
+      return agree;
     },
-    emptyValueMessage: "You have to accept the terms and conditions to continue",
+    emptyValueMessage:
+      'You have to accept the terms and conditions to continue',
     defaultValue: false,
-    Component: CheckboxInputGroup
+    Component: CheckboxInputGroup,
   });
 
   const submitButton = useSubmitButton({
-    inputs: [
-      usernameInput,
-      passwordInput,
-      rememberInput,
-      tcInput
-    ],
+    inputs: [usernameInput, passwordInput, rememberInput, tcInput],
     onSubmit,
-    Component: SubmitButton({ text: "Log in" })
+    Component: SubmitButton({ text: 'Log in' }),
   });
 
   function onSubmit(): Promise<void> {
@@ -62,16 +59,20 @@ export const LoginForm: React.FC = () => {
       if (rememberInput.formValue.value) {
         alert(`Will remembering ${usernameInput.formValue.value!} after login`);
       } else {
-        alert(`Will not remember ${usernameInput.formValue.value!} after login`);
+        alert(
+          `Will not remember ${usernameInput.formValue.value!} after login`
+        );
       }
-    })
+    });
   }
 
-  return <Form>
-    {usernameInput.jsx}
-    {passwordInput.jsx}
-    {rememberInput.jsx}
-    {tcInput.jsx}
-    {submitButton.jsx}
-  </Form>
-}
+  return (
+    <Form>
+      {usernameInput.jsx}
+      {passwordInput.jsx}
+      {rememberInput.jsx}
+      {tcInput.jsx}
+      {submitButton.jsx}
+    </Form>
+  );
+};

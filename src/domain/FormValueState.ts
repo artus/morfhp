@@ -6,7 +6,7 @@ export class FormValueState<T> {
     readonly error: string,
     readonly touched: boolean,
     readonly clear: () => void
-  ) { }
+  ) {}
 
   public isPresent(): boolean {
     return !!this.value;
@@ -22,7 +22,7 @@ export class FormValueState<T> {
 
   public canSubmit(): boolean {
     if (this.isRequired) {
-      return !this.error && !!this.value
+      return !this.error && !!this.value;
     } else {
       return !this.error;
     }
