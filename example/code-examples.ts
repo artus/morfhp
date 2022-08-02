@@ -98,3 +98,12 @@ const cityInput = useSelectInput({
   }
 });
 `;
+
+export const NUMBER = `
+const priceValue = useNumberInput({
+  defaultValue: 1,
+  isRequired: true,
+  label: 'Price in EUR',
+  validator: priceValidator,
+  Component: NumberInputGroup,
+});`;

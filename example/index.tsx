@@ -4,13 +4,13 @@ import * as ReactDOM from 'react-dom';
 import { UserForm } from './components/organisms/forms/UserForm';
 import { Column } from './components/atoms/flex/Column';
 import { Row } from './components/atoms/flex/Row';
-import { CHECKBOX, SELECT, USER_FORM } from './code-examples';
+import { CHECKBOX, NUMBER, SELECT, USER_FORM } from './code-examples';
 import { DotsBackground } from './components/atoms/backgrounds/dots-background/DotsBackground';
 import { CodeBlock } from './components/atoms/code-block/CodeBlock';
 import { LoginForm } from './components/organisms/forms/LoginForm';
-import { constants } from './constants';
 import { Title } from './components/atoms/text/Title';
 import { CityForm } from './components/organisms/forms/CityForm';
+import { ConversionForm } from './components/organisms/forms/ConversionForm';
 
 const App = () => {
   return (
@@ -48,6 +48,17 @@ const App = () => {
         <DotsBackground width={1000} height={500} paddingRight={200}>
           <CityForm />
           <CodeBlock code={SELECT} />
+        </DotsBackground>
+      </Row>
+
+      <Row>
+        <Title>Number input</Title>
+      </Row>
+
+      <Row>
+        <DotsBackground width={1000} height={500} paddingRight={200}>
+          <CodeBlock code={NUMBER} />
+          <ConversionForm />
         </DotsBackground>
       </Row>
     </Column>
