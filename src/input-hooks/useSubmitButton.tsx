@@ -9,7 +9,7 @@ interface ButtonComponentProps {
 }
 
 interface SubmitButtonProps {
-  inputs?: FormInput<unknown>[];
+  inputs?: FormInput<any>[];
   onSubmit: () => void | Promise<void>;
   isLoadingInitially?: boolean;
   Component: React.FC<ButtonComponentProps>;
