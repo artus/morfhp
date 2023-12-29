@@ -1,17 +1,24 @@
 import * as React from 'react';
 
 import { TextInputGroup } from '../../molecules/TextInputGroup';
-import { useTextInput, useSubmitButton, useBooleanInput } from '../../../../.';
-import { SubmitButton } from '../../atoms/buttons/SubmitButton';
+import { useTextInput, useBooleanInput, useForm } from '../../../../.';
 import { Form } from '../../atoms/form/Form';
 import { CheckboxInputGroup } from '../../molecules/CheckboxInputGroup';
 import { onSubmitWrapper } from '../../../helpers/OnSubmitWrapper';
+import { SubmitButton } from '../../atoms/buttons/SubmitButton';
+import { constants } from '../../../constants';
 
 export const LoginForm: React.FC = () => {
   const usernameInput = useTextInput({
     isRequired: true,
     label: 'username',
-    validator: (username: string) => username,
+    validator: (username: string) => {
+      if (username.length < 3)
+        throw new Error('Username must at least be 3 characters long.');
+      if (username.length > 16)
+        throw new Error('Username can not be longer then 16 characters.');
+      return username;
+    },
     Component: TextInputGroup,
   });
 
@@ -19,7 +26,13 @@ export const LoginForm: React.FC = () => {
     secureTextEntry: true,
     isRequired: true,
     label: 'password',
-    validator: (password: string) => password,
+    validator: (password: string) => {
+      if (password.length < 3)
+        throw new Error('Password must at least be 3 characters long.');
+      if (password.length > 16)
+        throw new Error('Password can not be longer then 16 characters.');
+      return password;
+    },
     Component: TextInputGroup,
   });
 
@@ -48,10 +61,9 @@ export const LoginForm: React.FC = () => {
     Component: CheckboxInputGroup,
   });
 
-  const submitButton = useSubmitButton({
+  const form = useForm({
     inputs: [usernameInput, passwordInput, rememberInput, tcInput],
     onSubmit,
-    Component: SubmitButton({ text: 'Log in' }),
   });
 
   function onSubmit(): Promise<void> {
@@ -67,12 +79,18 @@ export const LoginForm: React.FC = () => {
   }
 
   return (
-    <Form>
+    <Form onSubmit={form.onSubmit}>
+      {form.error && <p style={style}>{form.error?.message}</p>}
       {usernameInput.jsx}
       {passwordInput.jsx}
       {rememberInput.jsx}
       {tcInput.jsx}
-      {submitButton.jsx}
+      <SubmitButton canSubmit={form.canSubmit} isLoading={form.isLoading} />
     </Form>
   );
+};
+
+const style: React.CSSProperties = {
+  color: constants.colors.red,
+  fontSize: constants.sizing.fonts.error,
 };

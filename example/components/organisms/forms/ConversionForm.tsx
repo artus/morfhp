@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { useNumberInput, useCanSubmit } from '../../../../.';
+import { useNumberInput, useCanSubmit, useForm } from '../../../../.';
 import { Form } from '../../atoms/form/Form';
 import { NumberInputGroup } from '../../molecules/NumberInputGroup';
+import { SubmitButton } from '../../atoms/buttons/SubmitButton';
 
 const priceValidator = (price: number) => {
   if (isNaN(price)) {
@@ -13,6 +14,8 @@ const priceValidator = (price: number) => {
 };
 
 export const ConversionForm: React.FC = () => {
+  const [value, setValue] = React.useState('');
+
   const priceValue = useNumberInput({
     defaultValue: 1,
     isRequired: true,
@@ -31,18 +34,27 @@ export const ConversionForm: React.FC = () => {
 
   const canSubmit = useCanSubmit([priceValue, rateValue]);
 
+  const form = useForm({
+    inputs: [priceValue, rateValue],
+    onSubmit,
+  });
+
+  async function onSubmit() {
+    setValue(
+      (priceValue.formValue.value! * rateValue.formValue.value!).toFixed(2)
+    );
+  }
+
   return (
-    <Form>
+    <Form onSubmit={form.onSubmit}>
       {priceValue.jsx}
       {rateValue.jsx}
-      {canSubmit && (
-        <p>
-          Result:{' '}
-          {(priceValue.formValue.value! * rateValue.formValue.value!).toFixed(
-            2
-          )}
-        </p>
-      )}
+      <SubmitButton
+        canSubmit={canSubmit}
+        isLoading={form.isLoading}
+        text="Convert"
+      />
+      {canSubmit && <p>Result:{` ${value}`}</p>}
     </Form>
   );
 };

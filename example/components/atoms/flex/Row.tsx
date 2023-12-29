@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export const Row: React.FC = ({ children }) => {
+export const Row: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return <div style={style}>{children}</div>;
 };
 

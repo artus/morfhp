@@ -30,10 +30,9 @@ export const UserForm: React.FC = () => {
     Component: TextInputGroup
   });
 
-  const submitButton = useSubmitButton({
-    inputs: [usernameInput, passwordInput],
+  const form = useForm({
+    inputs: [usernameInput, passwordInput, rememberInput, tcInput],
     onSubmit,
-    Component: SubmitButton({ text: "Create user" })
   });
 
   function onSubmit(): Promise<void> {
@@ -45,10 +44,11 @@ export const UserForm: React.FC = () => {
     });
   }
 
-  return <Form>
+  <Form onSubmit={form.onSubmit}>
+    {form.error && <p style={style}>{form.error?.message}</p>}
     {usernameInput.jsx}
     {passwordInput.jsx}
-    {submitButton.jsx}
+    <SubmitButton canSubmit={form.canSubmit} isLoading={form.isLoading} />
   </Form>
 }
 `;

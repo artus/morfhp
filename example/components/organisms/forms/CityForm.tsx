@@ -3,13 +3,13 @@ import {
   SelectInputItem,
   useSelectInput,
   useTextInput,
-  useSubmitButton,
+  useForm,
 } from '../../../../dist';
-import { onSubmitWrapper } from '../../../helpers/OnSubmitWrapper';
-import { SubmitButton } from '../../atoms/buttons/SubmitButton';
 import { Form } from '../../atoms/form/Form';
 import { SelectInputGroup } from '../../molecules/SelectInputGroup';
 import { TextInputGroup } from '../../molecules/TextInputGroup';
+import { SubmitButton } from '../../atoms/buttons/SubmitButton';
+import { constants } from '../../../constants';
 
 export const CityForm: React.FC = () => {
   const cities = [
@@ -41,23 +41,35 @@ export const CityForm: React.FC = () => {
     },
   });
 
-  const submitButton = useSubmitButton({
+  const form = useForm({
     inputs: [postalCodeInput, cityInput],
     onSubmit,
-    Component: SubmitButton({ text: 'Log in' }),
+    onError,
   });
 
-  function onSubmit(): Promise<void> {
-    return onSubmitWrapper(() => {
-      alert(`Have fun in ${cityInput.formValue.value.value}`);
-    });
+  async function onError(error: Error): Promise<void> {
+    alert(error.message);
+  }
+
+  async function onSubmit(): Promise<void> {
+    if (cityInput.formValue.value?.value === 'Tokyo') {
+      throw new Error('Tokyo can not be selected.');
+    } else {
+      alert(`Have fun in ${cityInput.formValue.value?.value}!`);
+    }
   }
 
   return (
-    <Form>
+    <Form onSubmit={form.onSubmit}>
+      {form.error && <p style={style}>{form.error?.message}</p>}
       {postalCodeInput.jsx}
       {cityInput.jsx}
-      {submitButton.jsx}
+      <SubmitButton canSubmit={form.canSubmit} isLoading={form.isLoading} />
     </Form>
   );
+};
+
+const style: React.CSSProperties = {
+  color: constants.colors.red,
+  fontSize: constants.sizing.fonts.error,
 };

@@ -4,10 +4,23 @@ import { constants } from '../../../constants';
 interface FormProps {
   children: React.ReactNode;
   minWidth?: number;
+  canSubmit?: boolean;
+  onSubmit: React.FormEventHandler<HTMLFormElement>;
+  isLoading?: boolean;
 }
 
-export const Form: React.FC<FormProps> = ({ children, minWidth = 300 }) => {
-  return <form style={style(minWidth)}>{children}</form>;
+export const Form: React.FC<FormProps> = ({
+  children,
+  minWidth = 300,
+  onSubmit,
+  isLoading = false,
+  canSubmit,
+}) => {
+  return (
+    <form style={style(minWidth)} onSubmit={onSubmit}>
+      {children}
+    </form>
+  );
 };
 
 const style: (minWidth: number) => React.CSSProperties = minWidth => ({

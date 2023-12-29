@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { TextInputGroup } from '../../molecules/TextInputGroup';
-import { useTextInput, useSubmitButton } from '../../../../.';
+import { useTextInput, useForm } from '../../../../.';
 import { SubmitButton } from '../../atoms/buttons/SubmitButton';
 import { Form } from '../../atoms/form/Form';
 import { onSubmitWrapper } from '../../../helpers/OnSubmitWrapper';
@@ -40,10 +40,9 @@ export const UserForm: React.FC = () => {
     Component: TextInputGroup,
   });
 
-  const submitButton = useSubmitButton({
+  const form = useForm({
     inputs: [usernameInput, passwordInput],
     onSubmit,
-    Component: SubmitButton({ text: 'Create user' }),
   });
 
   function onSubmit(): Promise<void> {
@@ -53,10 +52,10 @@ export const UserForm: React.FC = () => {
   }
 
   return (
-    <Form>
+    <Form onSubmit={form.onSubmit}>
       {usernameInput.jsx}
       {passwordInput.jsx}
-      {submitButton.jsx}
+      <SubmitButton canSubmit={form.canSubmit} isLoading={form.isLoading} />
     </Form>
   );
 };

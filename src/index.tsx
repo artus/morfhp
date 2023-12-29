@@ -5,6 +5,7 @@ import { SelectInputItem, useSelectInput } from './input-hooks/useSelectInput';
 import { useNumberInput } from './input-hooks/useNumberInput';
 import { useCanSubmit } from './value-hooks/useCanSubmit';
 import { useCustomInput } from './input-hooks/useCustomInput';
+import { useForm } from './input-hooks/useForm';
 
 export {
   useTextInput,
@@ -15,4 +16,5 @@ export {
   useNumberInput,
   useCanSubmit,
   useCustomInput,
+  useForm,
 };

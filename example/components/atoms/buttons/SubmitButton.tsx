@@ -2,35 +2,26 @@ import * as React from 'react';
 import { constants } from '../../../constants';
 import { Loader } from '../loader/Loader';
 
-interface SubmitButtonFactoryProps {
-  text?: string;
-}
-
 interface SubmitButtonProps {
+  text?: string;
   isLoading: boolean;
   canSubmit: boolean;
-  onSubmit: () => void | Promise<void>;
 }
 
-export const SubmitButton: (
-  props: SubmitButtonFactoryProps
-) => React.FC<SubmitButtonProps> = ({ text }: SubmitButtonFactoryProps) => {
-  return ({ isLoading, canSubmit, onSubmit }: SubmitButtonProps) => {
-    const disabled = isLoading || !canSubmit;
+export const SubmitButton: React.FC<SubmitButtonProps> = ({
+  text = 'Submit',
+  isLoading,
+  canSubmit,
+}: SubmitButtonProps) => {
+  const disabled = isLoading || !canSubmit;
 
-    return (
-      <div
-        style={style(!disabled)}
-        onClick={() => {
-          if (!disabled) {
-            onSubmit();
-          }
-        }}
-      >
+  return (
+    <>
+      <button type="submit" style={style(!disabled)}>
         {isLoading ? <Loader /> : text}
-      </div>
-    );
-  };
+      </button>
+    </>
+  );
 };
 
 const style: (enabled: boolean) => React.CSSProperties = (
@@ -45,4 +36,5 @@ const style: (enabled: boolean) => React.CSSProperties = (
   color: constants.colors.white,
   cursor: 'pointer',
   borderRadius: '25px',
+  border: 'none',
 });

@@ -1,14 +1,196 @@
-# TSDX React User Guide
+# Morfhp
 
-Congrats! You just saved yourself hours of work by bootstrapping this project with TSDX. Let’s get you oriented with what’s here and how to use it.
+`My Own React Form Hooks Package`
 
-> This TSDX setup is meant for developing React component libraries (not apps!) that can be published to NPM. If you’re looking to build a React-based app, you should use `create-react-app`, `razzle`, `nextjs`, `gatsby`, or `react-static`.
+An opinionated package for easy form handling in react.
 
-> If you’re new to TypeScript and React, checkout [this handy cheatsheet](https://github.com/sw-yx/react-typescript-cheatsheet/)
+```js
+const usernameInput = useTextInput({
+  isRequired: true,
+  label: 'username',
+  validator: (username: string) => {
+    if (username === "some-swear-word") {
+      throw new Error("You can not use that username");
+    }
+    return username;
+  }
+  Component: TextInputGroup
+});
+
+const passwordInput = useTextInput({
+  secureTextEntry: true,
+  isRequired: true,
+  label: 'password',
+  validator: (password: string) => {
+    if (password.length < 6) {
+      throw new Error("Your password must be at least 6 characters long.");
+    }
+    return password;
+  },
+  Component: TextInputGroup
+});
+
+const form = useForm({
+  inputs: [usernameInput, passwordInput, rememberInput, tcInput],
+  onSubmit: () => {
+    username = usernameInput.formValue.value!;
+    password = passwordInput.formValue.value!;
+    await register(username, password);
+  }
+})
+
+return <Form onSubmit={form.onSubmit}>
+      {form.error && <p className="error">{form.error.message}</p>}
+      {usernameInput.jsx}
+      {passwordInput.jsx}
+      <SubmitButton canSubmit={form.canSubmit} isLoading={form.isLoading} />
+    </Form>
+  );
+```
+
+## Usage
+
+Create reactive form elements using the provided hooks. Link them together using the `useForm` hook.
+This package does not supply the actual elements, but provided hooks that you can use to manage your forms.
+
+### Text input
+
+Allows you to use a reactive text input field.
+
+```js
+const usernameInput = useTextInput({
+  isRequired: true,
+  label: 'username',
+  validator: (username: string) => return username,
+  Component: TextInputGroup,
+});
+```
+
+### Password input
+
+Use a text input field, but with `secureTextEntry` set to `true`.
+
+```js
+const passwordInput = useTextInput({
+  isRequired: true,
+  label: 'username',
+  validator: (username: string) => return username,
+  secureTextEntry: true,
+  Component: TextInputGroup,
+});
+```
+
+## Checkbox input
+
+Support for checkboxes:
+
+```js
+const termsAndConditionsInput = useBooleanInput({
+  isRequired: true,
+  label: 'I agree to the terms and conditions',
+  validator: (agree: boolean) => {
+    if (!agree) {
+      throw new Error(
+        'You have to accept the terms and conditions to continue'
+      );
+    }
+    return agree;
+  },
+  emptyValueMessage: 'You have to accept the terms and conditions to continue',
+  defaultValue: false,
+  Component: CheckboxInputGroup,
+});
+```
+
+## Number input
+
+Support for number input:
+
+```js
+const priceValue = useNumberInput({
+  defaultValue: 1,
+  isRequired: true,
+  label: 'Price in EUR',
+  validator: priceValidator,
+  Component: NumberInputGroup,
+});
+```
+
+## Dropdown input
+
+```js
+const cities = [
+  // (key, value)
+  new SelectInputItem() < string > ('New York', 'New York'),
+  new SelectInputItem() < string > ('London', 'London'),
+  new SelectInputItem() < string > ('Tokyo', 'Tokyo'),
+  new SelectInputItem() < string > ('New Delhi', 'New Delhi'),
+  new SelectInputItem() < string > ('Brussels', 'Brussels'),
+];
+
+const cityInput = useSelectInput({
+  isRequired: true,
+  label: 'City',
+  Component: SelectInputGroup,
+  defaultValue: cities[0],
+  items: cities,
+  validator: (selectedInput: SelectInputItem<string>) => {
+    if (selectedInput.name === 'Brussels') {
+      throw new Error('Brussels can not be selected.');
+    }
+    return selectedInput;
+  },
+});
+```
+
+### Custom Input
+
+If none of the above hooks support your usecase, you can use a custom input:
+
+```js
+const customInput = useCustomInput({
+  isRequired: true,
+  label: 'custom',
+  validator: (value: number) => value,
+  Component: MyCustomInputGroup,
+  placeholder: 12,
+  defaultValue: 12,
+  validateInitially: true,
+});
+```
+
+### Form handling
+
+```js
+const form = useForm({
+  inputs: [usernameInput, passwordInput, rememberInput, tcInput],
+  onSubmit,
+  onError,
+});
+
+function onError(error: Error) {
+  alert(error.message);
+}
+
+function onSubmit(): Promise<void> {
+  if (rememberInput.formValue.value) {
+    alert(`Will remembering ${usernameInput.formValue.value!} after login`);
+  } else {
+    alert(`Will not remember ${usernameInput.formValue.value!} after login`);
+  }
+  const username = usernameInput.formValue.value!;
+  const password = passwordInput.formValue.value!;
+  const remember = rememberInput.formValue.value!;
+  const tcInput  = tcInput.formValue.value!;
+  await doSomething(username, password, remember, tcInput);
+}
+```
+
+# TSDX Configuration
 
 ## Commands
 
-TSDX scaffolds your new library inside `/src`, and also sets up a [Parcel-based](https://parceljs.org) playground for it inside `/example`.
+TSDX scaffolds this library inside `/src`, and also sets up a [Parcel-based](https://parceljs.org) playground for it inside `/example`.
 
 The recommended workflow is to run TSDX in one terminal:
 
@@ -51,26 +233,20 @@ This is the folder structure we set up for you:
 ```txt
 /example
   index.html
-  index.tsx       # test your component here in a demo app
+  index.tsx       # test the component here in a demo app
   package.json
   tsconfig.json
 /src
-  index.tsx       # EDIT THIS
-/test
-  blah.test.tsx   # EDIT THIS
+  index.tsx       # Exports all hooks
 .gitignore
 package.json
 README.md         # EDIT THIS
 tsconfig.json
 ```
 
-#### React Testing Library
-
-We do not set up `react-testing-library` for you yet, we welcome contributions and documentation on this.
-
 ### Rollup
 
-TSDX uses [Rollup](https://rollupjs.org) as a bundler and generates multiple rollup configs for various module formats and build settings. See [Optimizations](#optimizations) for details.
+**Morfph** (TSDX) uses [Rollup](https://rollupjs.org) as a bundler and generates multiple rollup configs for various module formats and build settings. See [Optimizations](#optimizations) for details.
 
 ### TypeScript
 
@@ -130,31 +306,6 @@ netlify init
 
 Per Palmer Group guidelines, [always use named exports.](https://github.com/palmerhq/typescript#exports) Code split inside your React app instead of your React library.
 
-## Including Styles
-
-There are many ways to ship styles, including with CSS-in-JS. TSDX has no opinion on this, configure how you like.
-
-For vanilla CSS, you can include it at the root directory and add it to the `files` section in your `package.json`, so that it can be imported separately by your users and run through their bundler's loader.
-
 ## Publishing to NPM
 
 We recommend using [np](https://github.com/sindresorhus/np).
-
-## Usage with Lerna
-
-When creating a new package with TSDX within a project set up with Lerna, you might encounter a `Cannot resolve dependency` error when trying to run the `example` project. To fix that you will need to make changes to the `package.json` file _inside the `example` directory_.
-
-The problem is that due to the nature of how dependencies are installed in Lerna projects, the aliases in the example project's `package.json` might not point to the right place, as those dependencies might have been installed in the root of your Lerna project.
-
-Change the `alias` to point to where those packages are actually installed. This depends on the directory structure of your Lerna project, so the actual path might be different from the diff below.
-
-```diff
-   "alias": {
--    "react": "../node_modules/react",
--    "react-dom": "../node_modules/react-dom"
-+    "react": "../../../node_modules/react",
-+    "react-dom": "../../../node_modules/react-dom"
-   },
-```
-
-An alternative to fixing this problem would be to remove aliases altogether and define the dependencies referenced as aliases as dev dependencies instead. [However, that might cause other problems.](https://github.com/palmerhq/tsdx/issues/64)
