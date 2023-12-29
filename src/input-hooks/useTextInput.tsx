@@ -51,6 +51,7 @@ export const useTextInput = ({
       secureTextEntry={secureTextEntry}
       onValueChange={formValue.onChange}
       isError={formValue.isError()}
+      touched={formValue.touched}
     />
   );
 

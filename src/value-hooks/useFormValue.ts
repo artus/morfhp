@@ -18,6 +18,7 @@ export interface InputComponentProps<T> {
   isRequired: boolean;
   error?: string;
   isError: boolean;
+  touched: boolean;
 }
 
 interface FormValueProps<T> {

@@ -42,6 +42,7 @@ export const useNumberInput = ({
       value={formValue.value}
       error={formValue.error}
       placeholder={placeholder}
+      touched={formValue.touched}
     />
   );
 

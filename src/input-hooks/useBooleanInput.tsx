@@ -35,6 +35,7 @@ export const useBooleanInput = ({
       onValueChange={formValue.onChange}
       value={formValue.value}
       error={formValue.error}
+      touched={formValue.touched}
     />
   );
 

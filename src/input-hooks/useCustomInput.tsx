@@ -43,6 +43,7 @@ export function useCustomInput<T>({
       error={formValue.error}
       onValueChange={formValue.onChange}
       isError={formValue.isError()}
+      touched={formValue.touched}
     />
   );
 

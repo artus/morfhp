@@ -52,6 +52,7 @@ export function useSelectInput<T>({
       onValueChange={formValue.onChange}
       value={formValue.value}
       error={formValue.error}
+      touched={formValue.touched}
     />
   );
 
